@@ -1,0 +1,86 @@
+10) Develop a web application in ASP.NET that utilizes different state
+management techniques. Create a simple webpage with a form
+containing user input fields. Implement the following state
+management techniques and demonstrate their usage:
+- View State:
+a) Store a piece of information in the view state, such as a user's
+input on the form.
+b) Retrieve and display this information after a postback.
+- Session State:
+a) Store user-specific data in session state, like user preferences
+or settings.
+b) Implement a functionality to clear the session data after a
+certain event or timeout.
+
+1)add->webform:
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="view_sessionState.WebForm1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>State Management Example</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <h2>User Input Form</h2>
+            <asp:TextBox ID="txtName" runat="server" placeholder="Enter your name"></asp:TextBox>
+            <br />
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+            <br />
+            <asp:Label ID="lblResult" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+2)webform.aspx.cs:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+
+
+namespace view_sessionState
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                ViewState["OriginalName"] = "";
+            }
+
+            // Check if session data is available
+            if (Session["UserPreferences"] != null)
+            {
+                // Retrieve session data and display
+                lblResult.Text += "<br />User preferences: " + Session["UserPreferences"].ToString();
+            }
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            // Store user input in ViewState
+            ViewState["OriginalName"] = txtName.Text;
+
+            // Store user preferences in Session State
+            Session["UserPreferences"] = "Any user-specific data";
+
+            // Display the information after postback
+            lblResult.Text = "Your original name: " + ViewState["OriginalName"].ToString();
+        }
+
+        protected void btnClearSession_Click(object sender, EventArgs e)
+        {
+            // Clear session data on button click
+            Session.Clear();
+            lblResult.Text = "Session data cleared.";
+        }
+    }
+}
