@@ -1,0 +1,101 @@
+5) Develop a web application using ADO.NET in ASP.NET. Utilize a stored procedure to insert data into a database table. Implement a form in your ASP.NET application to take user inputs and invoke the stored procedure to insert the data.:
+
+Add->webform:
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="procedure.WebForm1" %>
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <label for="txtUserName">User Name:</label>
+            <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
+            <br />
+            <label for="txtEmail">Email:</label>
+            <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+            <br />
+            <asp:Button ID="btnAddUser" Text="Add User" runat="server" OnClick="btnAddUser_Click" />
+            <br />
+            <span id="lblMessage" runat="server"></span>
+        </div>
+    </form>
+</body>
+</html>
+
+
+Add->webform.aspx.cs:
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace procedure
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnAddUser_Click(object sender, EventArgs e)
+        {
+            string connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=abc2;Integrated Security=True;";
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("InsertUser", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters
+                    cmd.Parameters.AddWithValue("@UserName", txtUserName.Text);
+                    cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+
+                    try
+                    {
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
+                        lblMessage.InnerText = "User added successfully!";
+                        ClearForm();
+                    }
+                    catch (Exception ex)
+                    {
+                        lblMessage.InnerText = "Error: " + ex.Message;
+                    }
+                }
+            }
+        }
+
+        private void ClearForm()
+        {
+            txtUserName.Text = "";
+            txtEmail.Text = "";
+        }
+    }
+}
+
+Add connection->
+Step 1)-- Create a sample table
+CREATE TABLE Users (
+    UserId INT PRIMARY KEY IDENTITY(1,1),
+    UserName NVARCHAR(50),
+    Email NVARCHAR(50)
+);
+
+Step 2)-- Create a stored procedure for inserting data
+CREATE PROCEDURE InsertUser
+    @UserName NVARCHAR(50),
+    @Email NVARCHAR(50)
+AS
+BEGIN
+    INSERT INTO Users (UserName, Email)
+    VALUES (@UserName, @Email);
+END;
+
