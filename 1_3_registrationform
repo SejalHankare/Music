@@ -1,0 +1,216 @@
+1 .Registration form First create db
+New project = SQL server db project... Search this.. next nd Crete...
+Server explorer.... Data connection right click add connection..
+Server nm.. localhost\SQLEXPRESS
+enter db nm.....
+Right click on created db and select table nd right click on that new table... Then query tab opens ... Write query... Nd at top click on update nd.. update db... Click on db nm nd refresh the table.. 
+
+New project.... Asp. Net application framework.. webform.. project create..
+Web application right click add.. webform.. k..
+Webform -html Code
+Design double click on submit button
+Opens new file - submit code(check db nm and application nm are same)
+
+Right select*table nm ... In MySQL
+
+1 and 3rd are same 
+1) Create a database named "StudentDB" with a table named
+"Students" containing fields: StudentID (int, primary key),
+FirstName (varchar), LastName (varchar), and Age (int).
+Populate the table with sample data
+3) Develop an ASP.NET web page that allows users to submit a form
+with their details (name, email, etc.). Store this information in a
+database using ADO.NET.
+1)Database queries:
+create database abc;
+
+use abc;
+
+CREATE TABLE UserDetails
+
+(
+
+UserId INT PRIMARY KEY IDENTITY(1,1), FirstName NVARCHAR(50) NOT NULL, LastName NVARCHAR(50) NOT NULL, Contact NVARCHAR(20) NOT NULL, Gender NVARCHAR(10) NOT NULL, Address NVARCHAR(MAX) NOT NULL, Username NVARCHAR(50) NOT NULL, Password NVARCHAR(50) NOT NULL
+
+);
+
+
+2)add-webform
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="Validation_form.WebForm1" %>
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>User Details Form</title>
+    <style type="text/css">
+        .auto-style1 {
+            width: 225px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <asp:Label Text="FirstName" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2" class="auto-style1">
+                        &nbsp;<asp:TextBox ID="txtfirstname" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <asp:Label Text="LastName" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:TextBox ID="txtlastname" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label Text="Contact" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:TextBox ID="txtcontacts" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label Text="Gender" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:DropDownList ID="ddlGender" runat="server">
+                            <asp:ListItem>Male</asp:ListItem>
+                            <asp:ListItem>Female</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label Text="Address" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:TextBox ID="txtaddress" runat="server" TextMode="MultiLine"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label Text="Username" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:TextBox ID="txtusername" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label Text="Password" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:TextBox ID="txtpassword" runat="server" TextMode="Password"></asp:TextBox>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td class="auto-style1">
+                        <asp:Button ID="btnsubmit" runat="server" Text="SUBMIT" OnClick="btnsubmit_Click" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:Label ID="lblsuccessmessage" runat="server" Text="" ForeColor="Green"></asp:Label>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2" class="auto-style1">
+                        <asp:Label ID="lblerrormessage" runat="server" Text="" ForeColor="Red" ></asp:Label>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
+
+3)double click on submit button:
+using System;
+using System.Data.SqlClient;
+using System.Data;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace Validation_form
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+       
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnsubmit_Click(object sender, EventArgs e)
+        {
+            string firstName = txtfirstname.Text;
+            string lastName = txtlastname.Text;
+            string contact = txtcontacts.Text;
+            string gender = ddlGender.SelectedItem.Text;
+            string address = txtaddress.Text;
+            string username = txtusername.Text;
+            string password = txtpassword.Text;
+
+            // Validate input (you can add your validation logic here)
+
+            // Insert data into the database
+            string connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=abc;Integrated Security=True;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "INSERT INTO UserDetails (FirstName, LastName, Contact, Gender, Address, Username, Password) " +
+                                    "VALUES (@FirstName, @LastName, @Contact, @Gender, @Address, @Username, @Password)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", firstName);
+                        command.Parameters.AddWithValue("@LastName", lastName);
+                        command.Parameters.AddWithValue("@Contact", contact);
+                        command.Parameters.AddWithValue("@Gender", gender);
+                        command.Parameters.AddWithValue("@Address", address);
+                        command.Parameters.AddWithValue("@Username", username);
+                        command.Parameters.AddWithValue("@Password", password);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                // Display success message
+                lblsuccessmessage.Text = "User details submitted successfully!";
+                lblerrormessage.Text = ""; // Clear any previous error message
+            }
+            catch (Exception ex)
+            {
+                // Display error message
+                lblsuccessmessage.Text = "";
+                lblerrormessage.Text = "Error: " + ex.Message;
+            }
+        }
+
+    }
+}
