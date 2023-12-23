@@ -1,0 +1,124 @@
+11) Develop a web application in ASP.NET that showcases the use of
+different state management techniques. Implement the following
+functionalities:
+- View State:
+a) Create a web form with a set of controls (e.g., TextBox,
+DropDownList).
+b) Use View State to maintain the state of these controls across
+postbacks.
+c) Demonstrate how to store and retrieve values in/from the
+View State.
+- Session State:
+a) Design a multi-page application with at least two pages.
+b) Store user-specific information (e.g., username) in the
+Session State when the user logs in on the first page.
+c) Retrieve and display this information on the second page.
+
+1)add->webform1:
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FirstPage.aspx.cs" Inherits="Session_state.FirstPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>View State Example</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <asp:DropDownList ID="ddlOptions" runat="server">
+                <asp:ListItem Text="Option 1" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Option 2" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Option 3" Value="3"></asp:ListItem>
+            </asp:DropDownList>
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+        </div>
+    </form>
+</body>
+</html>
+
+2)webform1.aspx.cs:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Xml.Linq;
+
+namespace Session_state
+{
+    public partial class FirstPage : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+      
+                if (!IsPostBack)
+                {
+                    // Initialize controls or load data on the initial page load
+                }
+            }
+
+            protected void btnSubmit_Click(object sender, EventArgs e)
+            {
+                // Store values in View State
+                ViewState["Name"] = txtName.Text;
+                ViewState["Option"] = ddlOptions.SelectedValue;
+
+                // Store username in Session State
+                Session["Username"] = txtName.Text;
+
+                // Redirect to the second page
+                Response.Redirect("SecondPage.aspx");
+            }
+        }
+    }
+
+
+3)add->webform2:
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SecondPage.aspx.cs" Inherits="Session_state.SecondPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Session State Example - Second Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:Label ID="lblUserInfo" runat="server" Text=""></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+4)webform2.aspx.cs:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace Session_state
+{
+    public partial class SecondPage : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            // Retrieve user-specific information from Session State
+            if (Session["Username"] != null)
+            {
+                string username = Session["Username"].ToString();
+                lblUserInfo.Text = $"Welcome, {username}!";
+            }
+            else
+            {
+                // Redirect to the login page or handle the absence of user information
+            }
+
+        }
+    }
+}
