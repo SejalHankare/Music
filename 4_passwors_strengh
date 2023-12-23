@@ -1,0 +1,79 @@
+4)password_strength:
+4) Write a code snippet in C# to validate user input in an ASP.NET web
+form. Include validation for required fields, email format, and
+password strength. 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication3.WebForm1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+       <div>
+            <h2>User Registration</h2>
+            <asp:Label ID="lblName" runat="server" Text="Name:"></asp:Label>
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="rfvName" runat="server" ControlToValidate="txtName"
+                ErrorMessage="Name is required." Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+            <br /><br />
+
+            <asp:Label ID="lblEmail" runat="server" Text="Email:"></asp:Label>
+            <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="rfvEmail" runat="server" ControlToValidate="txtEmail"
+                ErrorMessage="Email is required." Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+            <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtEmail"
+                ErrorMessage="Invalid email format." Display="Dynamic" ForeColor="Red"
+                ValidationExpression="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"></asp:RegularExpressionValidator>
+            <br /><br />
+
+            <asp:Label ID="lblPassword" runat="server" Text="Password:"></asp:Label>
+            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword"
+                ErrorMessage="Password is required." Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+            <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword"
+                ErrorMessage="Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number."
+                Display="Dynamic" ForeColor="Red"
+                ValidationExpression="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"></asp:RegularExpressionValidator>
+            <br /><br />
+
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+        </div>
+    </form>
+</body>
+</html>
+
+
+2) Webform1.aspx->webform1.aspx.cs=
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace WebApplication3
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                
+                string name = txtName.Text;
+                string email = txtEmail.Text;
+                string password = txtPassword.Text;
+
+                
+            }
+        }
+    }
+}
