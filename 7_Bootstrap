@@ -1,0 +1,59 @@
+7) Develop an ASP.NET form that uses Bootstrap styles. Implement a
+form with various input elements (textboxes, checkboxes, radio
+buttons) and apply Bootstrap classes to enhance the visual appeal.
+Validate user inputs using Bootstrap's built-in validation styles.
+
+Exp_7)add->webform:
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BootstrapForm.aspx.cs" Inherits="YourNamespace.BootstrapForm" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Bootstrap Form</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <form runat="server">
+        <div class="container mt-5">
+            <h2>Bootstrap Form</h2>
+
+            <!-- Textbox with Bootstrap styles -->
+            <div class="form-group">
+                <label for="txtName">Name:</label>
+                <input type="text" id="txtName" runat="server" class="form-control" placeholder="Enter your name" required />
+            </div>
+
+            <!-- Checkbox with Bootstrap styles -->
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" id="chkAgree" runat="server" class="form-check-input" required />
+                    <label class="form-check-label" for="chkAgree">I agree to the terms and conditions</label>
+                </div>
+            </div>
+
+            <!-- Radio buttons with Bootstrap styles -->
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="radio" id="rdoOption1" runat="server" class="form-check-input" name="options" required />
+                    <label class="form-check-label" for="rdoOption1">Option 1</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="rdoOption2" runat="server" class="form-check-input" name="options" required />
+                    <label class="form-check-label" for="rdoOption2">Option 2</label>
+                </div>
+            </div>
+
+            <!-- Submit button with Bootstrap styles -->
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
